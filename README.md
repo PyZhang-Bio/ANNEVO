@@ -21,6 +21,7 @@ conda activate ANNEVO
 
 ## Install from source
 pip install .
+conda install seqkit=2.9.0
 ```
 The above command installs all dependencies except PyTorch. To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). Select the appropriate command based on your CUDA version to install PyTorch version 1.10. For example, for CUDA version 11.3, use the following command:
 ```bash
