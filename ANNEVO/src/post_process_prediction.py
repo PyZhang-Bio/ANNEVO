@@ -119,7 +119,7 @@ def predict_proba_of_bases(genome, lineage, chunk_num, num_workers, prediction_p
     file_name_without_ext, ext = os.path.splitext(file_name)
 
     for chunk_order in range(chunk_num):
-        print(f'predicting chunk {chunk_order} / {chunk_num}')
+        print(f'predicting chunk {chunk_order + 1} / {chunk_num}')
         chunk_str = str(chunk_order+1)
         if len(chunk_str) == 1:  # 1 位数
             part_name = f".part_00{chunk_str}"
