@@ -79,9 +79,9 @@ def predict_probability(model, windows, device, num_classes_base, num_classes_tr
                 outputs_transition = outputs_transition.reshape(-1, num_classes_transition)
                 outputs_phase = outputs_phase.reshape(-1, num_classes_phases)
             else:
-                outputs_base = outputs_base.view(-1, num_classes_base)
-                outputs_transition = outputs_transition.view(-1, num_classes_transition)
-                outputs_phase = outputs_phase.view(-1, num_classes_phases)
+                outputs_base = outputs_base.reshape(-1, num_classes_base)
+                outputs_transition = outputs_transition.reshape(-1, num_classes_transition)
+                outputs_phase = outputs_phase.reshape(-1, num_classes_phases)
             accumulated_outputs_base.append(outputs_base.cpu())
             accumulated_outputs_transition.append(outputs_transition.cpu())
             accumulated_outputs_phase.append(outputs_phase.cpu())
