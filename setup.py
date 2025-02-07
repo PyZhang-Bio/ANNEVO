@@ -4,14 +4,14 @@ with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 setup(
-    name="EvoANN",
+    name="ANNEVO",
     version="1.0",
     author="Pengyu Zhang",
     author_email="pengyuzhang@stu.xjtu.edu.cn",
     description="Ab initio gene prediction tool",
     long_description=open("README.md", encoding='utf-8').read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/PyZhang-Bio/EvoANN",
+    url="https://github.com/PyZhang-Bio/ANNEVO",
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
