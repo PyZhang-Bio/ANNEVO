@@ -21,11 +21,11 @@ conda activate ANNEVO
 
 ## Install from source
 pip install .
-conda install seqkit=2.9.0
+conda install -c bioconda seqkit=2.9.0
 ```
-The above command installs all dependencies except PyTorch. To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). Select the appropriate command based on your CUDA version to install PyTorch version 1.10. For example, for CUDA version 11.3, use the following command:
+The above command installs all dependencies except PyTorch. To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). Select the appropriate command based on your CUDA version to install PyTorch version 1.10. Or directly use `pytorch-cuda` to automatically install the appropriate `cudatoolkit`. For example, if the CUDA version is not lower than 11.3, you can use the following command:
 ```bash
-conda install pytorch==1.10.0 torchvision==0.11.0 torchaudio==0.10.0 cudatoolkit=11.3 -c pytorch -c conda-forge
+conda install pytorch=1.10 torchvision torchaudio pytorch-cuda=11.3 -c pytorch -c nvidia
 ```
 
 Check if CUDA is available:
@@ -37,7 +37,8 @@ print(torch.cuda.is_available())
 ## Usage
 Typically, deep learning is conducted in environments equipped with GPU resources, where CPU resources are often limited. However, decoding gene structures usually requires substantial CPU resources. To address this, we provide a segmented execution approach, allowing users to flexibly switch between computational nodes/environments with different resources. ANNEVO consists of two stages:  
 Stage 1: Predicting three types of information for each nucleotide (recommended to be performed on environments with abundant GPU resources).  
-Stage 2: Decoding the three types of information into biologically valid gene structures (recommended to be performed on environments with abundant CPU resources).
+Stage 2: Decoding the three types of information into biologically valid gene structures (recommended to be performed on environments with abundant CPU resources).  
+User can use the following two instructions in the current directory to complete gene annotation:
 
 ### Nucleotide prediction
 The required parameters for the first stage include the path to the genome, the specified lineage (which determines the lineage-specific model parameters to be used), and the path to save the prediction results. The command for nucleotide prediction is as follows:
