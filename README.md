@@ -23,9 +23,9 @@ conda activate ANNEVO
 pip install .
 conda install -c bioconda seqkit=2.9.0
 ```
-The above command installs all dependencies except PyTorch. To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). Select the appropriate command based on your CUDA version to install PyTorch version 1.10. Or directly use `pytorch-cuda` to automatically install the appropriate `cudatoolkit`. For example, if the CUDA version is not lower than 11.3, you can use the following command:
+The above command installs all dependencies except PyTorch. To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). Select the appropriate command based on your CUDA version to install PyTorch version 1.10. Or directly use `pytorch-cuda` to automatically install the appropriate `cudatoolkit`. For example, if the CUDA version is not lower than 11.8, you can use the following command:
 ```bash
-conda install pytorch=1.10 torchvision torchaudio pytorch-cuda=11.3 -c pytorch -c nvidia
+conda install pytorch=1.10 torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
 
 Check if CUDA is available:
