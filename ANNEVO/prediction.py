@@ -2,6 +2,7 @@ import argparse
 from ANNEVO.src.post_process_prediction import predict_proba_of_bases
 import time
 import os
+import shutil
 
 
 def main():
@@ -40,6 +41,8 @@ def main():
     num_classes_phases = len(args.class_weights_phases)
     if not os.path.exists(args.model_prediction_path):
         os.makedirs(args.model_prediction_path)
+    if not os.path.exists(f'{args.model_prediction_path}/temp_genome_split'):
+        os.makedirs(f'{args.model_prediction_path}/temp_genome_split')
 
     start_time = time.time()
     predict_proba_of_bases(args.genome, args.lineage, args.chunk_num, args.num_workers, args.model_prediction_path, args.batch_size, args.window_size, args.flank_length, args.channels, args.dim_feedforward,
@@ -47,6 +50,7 @@ def main():
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The model prediction took {elapsed_time} seconds")
+    shutil.rmtree(f'{args.model_prediction_path}/temp_genome_split')
 
 
 if __name__ == '__main__':

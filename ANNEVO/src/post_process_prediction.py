@@ -1,13 +1,15 @@
+import os
+
 from ANNEVO.utils.utils import model_construction, model_load_weights
 import glob
 from Bio import SeqIO
 import h5py
 from tqdm import tqdm
-from torch.utils.data import Dataset
-from torch.utils.data import DataLoader
+from torch.utils.data import Dataset, DataLoader
 import torch
 import torch.nn.functional as F
 import gc
+import subprocess
 
 
 def data_load(group, species_name):
@@ -95,40 +97,49 @@ def predict_probability(model, windows, device, num_classes_base, num_classes_tr
 def predict_proba_of_bases(genome, lineage, chunk_num, num_workers, prediction_path, batch_size, window_size, flank_length, channels, dim_feedforward,
                            num_encoder_layers, num_heads, num_blocks, num_branches, num_classes_base, num_classes_transition, num_classes_phases):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    with open(genome) as fna:
-        genome_seq = SeqIO.to_dict(SeqIO.parse(fna, "fasta"))
-
     model = model_construction(device, window_size, flank_length, channels, dim_feedforward, num_encoder_layers, num_heads, num_blocks,
                                num_branches, num_classes_base, num_classes_transition, num_classes_phases)
     model = model_load_weights(lineage, model, device)
     model.eval()
 
-    chromosome_name = []
-    chromosome_length = []
-    for chromosome in genome_seq:
-        chromosome_name.append(chromosome)
-        chromosome_seq_record = genome_seq[chromosome]
-        sequence = str(chromosome_seq_record.seq).upper()
-        length = len(sequence)
-        chromosome_length.append(length)
-    print(f'The number of sequence in this species is {len(chromosome_name)}')
+    seq_num = sum(1 for _ in SeqIO.parse(genome, "fasta"))
+    chunk_num = min(chunk_num, seq_num)
     print(f'The prediction file will be saved in {chunk_num} blocks.')
-    chunk_num = min(chunk_num, len(chromosome_name))
 
-    chromosomes = list(zip(chromosome_name, chromosome_length))
-    chromosomes.sort(key=lambda x: x[1], reverse=True)
-    chromosomes_groups = [([], 0) for _ in range(chunk_num)]
-    chromosomes_groups = [[list(chromosomes_group[0]), chromosomes_group[1]] for chromosomes_group in chromosomes_groups]
-    for name, length in chromosomes:
-        min_group = min(chromosomes_groups, key=lambda x: x[1])
-        min_group[0].append(name)
-        min_group[1] += length
+    cmd = [
+        "seqkit", "split2",
+        "-p", str(chunk_num),
+        "-f",
+        "-O", f'{prediction_path}/temp_genome_split',
+        genome
+    ]
+    subprocess.run(cmd)
 
-    for chunk_order, (chromosome_name_list, _) in enumerate(chromosomes_groups):
-        # for chunk_order, (chunk_start, chunk_end) in enumerate(chunk_index):
-        print(f'Processing chunk {chunk_order}')
-        seq_id_chunk = chromosome_name_list
+    file_name = os.path.basename(genome)
+    file_name_without_ext, ext = os.path.splitext(file_name)
+
+    for chunk_order in range(chunk_num):
+        print(f'predicting chunk {chunk_order} / {chunk_num}')
+        chunk_str = str(chunk_order+1)
+        if len(chunk_str) == 1:  # 1 位数
+            part_name = f".part_00{chunk_str}"
+        elif len(chunk_str) == 2:
+            part_name = f".part_0{chunk_str}"
+        elif len(chunk_str) == 3:
+            part_name = f".part_{chunk_str}"
+        else:
+            raise Exception("chunk_num should be less than 1000.")
+
+        with open(f'{prediction_path}/temp_genome_split/{file_name_without_ext}{part_name}{ext}') as fna:
+            genome_seq = SeqIO.to_dict(SeqIO.parse(fna, "fasta"))
+        seq_id_chunk = []
         seq_length_chunk = []
+        for chromosome in genome_seq:
+            seq_id_chunk.append(chromosome)
+            chromosome_seq_record = genome_seq[chromosome]
+            sequence = str(chromosome_seq_record.seq).upper()
+            length = len(sequence)
+            seq_length_chunk.append(length)
         windows_forward = []
         windows_reverse = []
         genome_predictions = {}
