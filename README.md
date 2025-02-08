@@ -68,8 +68,8 @@ python -m ANNEVO.decoding --genome example/Aspergillus_oryzae_genome.fna --model
 ANNEVO supports the retraining of specific lineages using additional genomic data to further optimize performance. Using the demonstration data as an example, the first step is to preprocess the data based on the genome and annotation (we strongly recommend adjusting `cpu_num` to utilize more CPU cores when sufficient computational resources are available):
 ```bash
 # Filter GFF file to remove entries with duplicate gene IDs and their associated sub-features.
-python -m ANNEVO.src.filter_wrong_record --input_file example/Candida_margitis_annotation.gff --output_file example/filterred_Candida_margitis_annotation.gff
-python -m ANNEVO.data_processing --genome example/Candida_margitis_genome.fna --annotation example/filterred_Candida_margitis_annotation.gff --output_file processed_data/Candida_margitis.h5
+python -m ANNEVO.src.filter_wrong_record --input_file example/Cryptococcus_neoformans_annotation.gff --output_file example/filterred_Cryptococcus_neoformans_annotation.gff
+python -m ANNEVO.data_processing --genome example/Cryptococcus_neoformans_genome.fa --annotation example/filterred_Cryptococcus_neoformans_annotation.gff --output_file processed_data/Cryptococcus_neoformans.h5
 ```
 The training process typically requires the genomes of multiple species. Therefore, ANNEVO provides a `species_list.txt` to index the training species and validation species.
 ```bash
