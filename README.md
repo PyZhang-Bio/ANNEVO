@@ -7,7 +7,7 @@ ANNEVO is designed to model various sub-lineages at high taxonomic levels while 
 ANNEVO is free for non-commercial use by academic, government, and non-profit/not-for-profit institutions. A commercial version of the software is available and licensed through Xi'an Jiaotong University. For more information, please contact with Pengyu Zhang (pengyuzhang@stu.xjtu.edu.cn) or Kai Ye (kaiye@xjtu.edu.cn).  
 
 ## Installation
-We recommend using the conda virtual environment to install ANNEVO.
+We recommend using the conda virtual environment to install ANNEVO (Platform: Linux).
 ```bash
 # Get the source code
 git clone https://github.com/PyZhang-Bio/ANNEVO.git
@@ -19,8 +19,8 @@ conda create -n ANNEVO python=3.6
 # Activate conda environment
 conda activate ANNEVO
 
-# To use GPU acceleration properly, we recommend installing PyTorch using the official installation commands
-# provided by PyTorch (https://pytorch.org/get-started/previous-versions/). 
+# To use GPU acceleration properly, we recommend installing PyTorch using the official installation 
+# commands provided by PyTorch (https://pytorch.org/get-started/previous-versions/). 
 # Select the appropriate command based on your CUDA version to install PyTorch version 1.10. 
 # Or directly use `pytorch-cuda` to automatically install the appropriate `cudatoolkit`. 
 # For example, if the CUDA version is not lower than 11.8, you can use the following command:
