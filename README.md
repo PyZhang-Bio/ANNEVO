@@ -53,7 +53,7 @@ Regarding the balance of computing resources and computing time, users can furth
 ### Gene structure decoding
 The required parameters for the second stage include the path to the genome, the path to the model prediction results, and the output annotation file. The command for gene structure decoding is as follows:
 ```bash
-python -m ANNEVO.decoding --genome path_to_genome --model_prediction_path path_to_save_predction --output path_to_gff
+python -m ANNEVO.decoding --genome path_to_genome --model_prediction_path path_to_save_predction --output path_to_gff --cpu_num 8
 ```
 We strongly recommend utilizing more CPU cores by adjusting `cpu_num` when sufficient computational resources are available, as this will significantly accelerate the computation.
 
@@ -61,7 +61,7 @@ We strongly recommend utilizing more CPU cores by adjusting `cpu_num` when suffi
 The demo data located at './example'.
 ```bash
 python -m ANNEVO.prediction --genome example/Aspergillus_oryzae_genome.fna --lineage Fungi --model_prediction_path prediction_result/Aspergillus_oryzae
-python -m ANNEVO.decoding --genome example/Aspergillus_oryzae_genome.fna --model_prediction_path prediction_result/Aspergillus_oryzae --output gff_result/Aspergillus_oryzae_annotation.gff 
+python -m ANNEVO.decoding --genome example/Aspergillus_oryzae_genome.fna --model_prediction_path prediction_result/Aspergillus_oryzae --output gff_result/Aspergillus_oryzae_annotation.gff --cpu_num 8
 ```
 
 ## Retrain ANNEVO (Optional)
