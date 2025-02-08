@@ -44,7 +44,7 @@ Stage 2: Decoding the three types of information into biologically valid gene st
 User can use the following two instructions in the current directory to complete gene annotation:
 
 ### Nucleotide prediction
-The required parameters for the first stage include the path to the genome, the specified lineage (which determines the lineage-specific model parameters to be used), and the path to save the prediction results. The command for nucleotide prediction is as follows:
+The required parameters for the first stage include the path to the genome, the specified lineage (which determines the lineage-specific model parameters to be used; Options: Fungi, Embryophyta, Mammalia, Vertebrate_other, Invertebrate), and the path to save the prediction results. The command for nucleotide prediction is as follows:
 ```bash
 python -m ANNEVO.prediction --genome path_to_genome --lineage selected_lineage --model_prediction_path path_to_save_predction
 ```
